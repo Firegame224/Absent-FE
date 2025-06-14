@@ -3,31 +3,32 @@ import axios from "axios";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-interface user {
+interface User {
   id: string
-  email: string,
-  name: string,
+  email: string
+  name: string
   image: string
+  role : string
 }
 
 
 export const useSessionStore = defineStore("auth", () => {
-  const User = ref<user>();
+  const profile = ref<null | User>();
   const isloggedIn = ref(false)
 
-  async function userSession() {
+  async function fetchSession() {
     try {
       const response = await axios.get(`${baseUrl}/user/details`, {
         withCredentials: true
       })
+
       const data = response.data.data;
-      if (data) {
-        User.value = data;
-      } else {
-        User.value = undefined
-      }
+      profile.value = data;
+      isloggedIn.value = true
     } catch (error) {
-      throw error
+      isloggedIn.value = false
+      profile.value = null
+      console.error('Error fetching session:', error)
     }
   }
 
@@ -46,6 +47,33 @@ export const useSessionStore = defineStore("auth", () => {
       throw error
     }
   }
-  return { signIn, userSession, User, isloggedIn }
+
+  async function signUp(email: string, password: string) {
+    try {
+      const response = await axios.post(`${baseUrl}/user/create`, {
+        email,
+        password
+      });
+
+      return response.data.message;
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async function logout() {
+    try {
+      const response = await axios.post(`${baseUrl}/user/logout`, {}, {
+        withCredentials: true
+      })
+
+      isloggedIn.value = false
+      profile.value = null
+      return response.data.message;
+    } catch (error) {
+      throw error
+    }
+  }
+  return { signIn, signUp, logout, fetchSession, profile, isloggedIn }
 
 })

@@ -4,6 +4,6 @@ import { RouterView } from 'vue-router'
 
 <template>
   <KeepAlive>
-    <RouterView class="bg-gray-200"/>
+    <RouterView class="bg-gray-200" />
   </KeepAlive>
 </template>
