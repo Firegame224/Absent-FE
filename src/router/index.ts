@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import SignIn from '../pages/signIn.vue'
-import dashboard from '@/pages/Dashboard.vue'
-import Analitycs from '@/pages/Analitycs.vue'
+import SignIn from '../pages/SignIn.vue'
+import dashboard from '@/layouts/Dashboard.vue'
+import Analitycs from '@/pages/Analytics.vue'
 import { useSessionStore } from '@/stores/session-store'
 
 const routes = [

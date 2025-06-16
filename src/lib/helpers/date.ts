@@ -1,3 +1,6 @@
 export function convertDate(date: Date) {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate()).toISOString().split("T")[0]
+  const nonLocaleDate = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+  const localeDate = new Date(nonLocaleDate.getTime() + (7 * 60 * 60 * 1000)).toISOString().split("T")[0]
+
+  return localeDate
 }

@@ -1,7 +1,9 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import AnalysticsChart from '@/components/AnalysticsChart.vue';
-import UserTable from '@/components/UserTable.vue';
+import AnalysticsChart from '@/components/Analytics/AnalyticsChart.vue';
+import { Label } from '@/components/ui/label';
+import UserTable from '@/components/Analytics/AnalyticsTable.vue';
+
 </script>
 
 <template>
@@ -11,10 +13,10 @@ import UserTable from '@/components/UserTable.vue';
         Analytic page
       </Label>
     </div>
-    <section class="w-full bg-white p-5 rounded-md shadow shadow-gray-500 flex">
+    <section class="w-full bg-white p-5 rounded-md shadow shadow-gray-500 flex flex-col">
       <AnalysticsChart />
     </section>
-    <section class="w-full bg-white p-5 rounded-md shadow shadow-gray-500 flex">
+    <section class="w-full bg-white p-5 flex-col gap-5 rounded-md shadow shadow-gray-500 flex">
       <UserTable />
     </section>
   </div>

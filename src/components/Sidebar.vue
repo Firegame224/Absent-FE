@@ -24,12 +24,14 @@ const items = [
   }
 ]
 
+const { profile } = useSessionStore()
+
+const { Logout } = useSession();
+
 const itemwithRole = computed(() => {
   return items.filter((item) => item.role === profile?.role)
 })
 
-const { profile } = useSessionStore()
-const { Logout } = useSession();
 
 const handleLogout = async () => {
   await Logout();

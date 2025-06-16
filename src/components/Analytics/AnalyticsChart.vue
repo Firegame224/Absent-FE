@@ -3,9 +3,21 @@ import { convertDate } from '@/lib/helpers/date'
 import { useabsenStores } from '@/stores/absen-store'
 import type { Absen } from '@/types/absen'
 import { onMounted, ref } from 'vue'
-import { Label } from './ui/label'
+import { Label } from '../ui/label'
+import { Plus } from 'lucide-vue-next'
+import { Button } from '../ui/button'
+import Dialog from '../Dialog.vue'
+import { useAbsen } from '@/composables/absen'
 
 const date = convertDate(new Date())
+const isOpen = ref(false)
+
+const { createAbsen, loading } = useAbsen()
+
+const handleCreate = async () => {
+  await createAbsen();
+  isOpen.value = false
+}
 
 // Untuk data semua absen
 const absensi = ref<Absen[]>([])
@@ -45,7 +57,7 @@ onMounted(async () => {
   const absens = await getAllAbsenUsers()
 
   // Untuk data banyak absen
-  absensi.value = absens
+  absensi.value = absens;
   chartOptions.value = {
     chart: {
       id: "Absen-chart"
@@ -68,10 +80,23 @@ onMounted(async () => {
   donutSeries.value[2] = absensiToday.value[0].Terlambat
   donutSeries.value[3] = absensiToday.value[0].Alpha
 })
+
 </script>
 
 <template>
-  <div class="w-full flex justify-between items-center">
+  <Dialog :is-loading="loading" message="Buat Absen" title="Buat Absen Hari Ini ?" :is-open="isOpen" v-on:confirm="handleCreate"
+    @close="isOpen = false" />
+  <div class="w-full flex items-center justify-between">
+    <Label class="text-blue-500 font-bold text-lg">
+      Absen Charts
+    </Label>
+    <Button :disabled="singgle" @click="() => isOpen = true"
+      class="bg-blue-500 flex hover:bg-blue-400 gap-1 cursor-pointer">
+      <Plus class="w-5 h-5 text-white" />
+      <p class="text-white font-semibold">Tambah</p>
+    </Button>
+  </div>
+  <div class="w-full flex justify-between items-center h-full">
     <div class="w-[30%] flex-col flex gap-2 h-full">
       <Label class="w-full items-center justify-center flex">
         Absen Today

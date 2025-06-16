@@ -3,7 +3,6 @@ import axios from "axios";
 import { defineStore } from "pinia";
 
 export const useabsenStores = defineStore("absen", () => {
-
   async function getAllAbsenUsers() {
     try {
       const response = await axios.get(`${baseUrl}/absen`, {
@@ -31,10 +30,12 @@ export const useabsenStores = defineStore("absen", () => {
       throw error
     }
   }
-  async function userAbsenToday(absenId: string) {
+
+  async function userAbsenToday(absenId: string, status: string) {
     try {
       const response = await axios.post(`${baseUrl}/absen/Today`, {
-        absenId
+        absenId,
+        status
       }, {
         withCredentials: true
       })
@@ -44,9 +45,10 @@ export const useabsenStores = defineStore("absen", () => {
       throw error
     }
   }
+
   async function createAbsenToday() {
     try {
-      const response = await axios.post(`${baseUrl}/absen`, {}, {
+      const response = await axios.post(`${baseUrl}/absen/today`, {}, {
         withCredentials: true
       })
 
@@ -55,5 +57,6 @@ export const useabsenStores = defineStore("absen", () => {
       throw error
     }
   }
+
   return { getAllAbsenUsers, getAbsenUserToday, userAbsenToday, createAbsenToday }
 })
