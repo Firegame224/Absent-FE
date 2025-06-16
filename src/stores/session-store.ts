@@ -8,7 +8,7 @@ interface User {
   email: string
   name: string
   image: string
-  role : string
+  role: string
 }
 
 
@@ -28,7 +28,7 @@ export const useSessionStore = defineStore("auth", () => {
     } catch (error) {
       isloggedIn.value = false
       profile.value = null
-      console.error('Error fetching session:', error)
+      console.error(error)
     }
   }
 

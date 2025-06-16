@@ -17,7 +17,30 @@ export const useabsenStores = defineStore("absen", () => {
     }
   }
 
-  async function getAbsenUserToday() {
+  async function getAbsenToday() {
+    try {
+      const response = await axios.get(`${baseUrl}/absen/today`, {
+        withCredentials: true
+      })
+
+      const data = response.data.data;
+
+      return data
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async function getAbsenById(absenId: string) {
+    try {
+      const response = await axios.get(`${baseUrl}/absen/${absenId}`)
+
+      return response.data.data;
+    } catch (error) {
+      throw error
+    }
+  }
+  async function getUserAbsenToday() {
     try {
       const response = await axios.get(`${baseUrl}/absen/today-user`, {
         withCredentials: true
@@ -33,7 +56,7 @@ export const useabsenStores = defineStore("absen", () => {
 
   async function userAbsenToday(absenId: string, status: string) {
     try {
-      const response = await axios.post(`${baseUrl}/absen/Today`, {
+      const response = await axios.post(`${baseUrl}/absen/today-user`, {
         absenId,
         status
       }, {
@@ -58,5 +81,7 @@ export const useabsenStores = defineStore("absen", () => {
     }
   }
 
-  return { getAllAbsenUsers, getAbsenUserToday, userAbsenToday, createAbsenToday }
+
+
+  return { getAllAbsenUsers, getAbsenById, getAbsenToday, userAbsenToday, createAbsenToday, getUserAbsenToday }
 })

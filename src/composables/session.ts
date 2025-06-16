@@ -20,8 +20,8 @@ export function useSession() {
         allowEscapeKey: true,
         icon: 'success',
         title: 'Berhasil membuat user',
-        showConfirmButton : false,
-        timer : 2000
+        showConfirmButton: false,
+        timer: 2000
       })
       router.go(0)
       return { success: true }
@@ -47,7 +47,7 @@ export function useSession() {
       loading.value = false
     }
   }
-  
+
   async function Login(form: signInForm) {
     loading.value = true
     try {
@@ -61,7 +61,7 @@ export function useSession() {
       })
 
       if (result === 'User') {
-        router.push('/home')
+        router.push('/dashboard/home')
       } else {
         router.push('/dashboard')
       }
@@ -87,7 +87,7 @@ export function useSession() {
   async function Logout() {
     try {
       const result = await logout()
-      Swal.fire({
+      await Swal.fire({
         allowEscapeKey: true,
         cancelButtonText: "Oke",
         cancelButtonColor: "Blue",

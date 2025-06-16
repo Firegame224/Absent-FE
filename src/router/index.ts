@@ -3,7 +3,8 @@ import SignIn from '../pages/SignIn.vue'
 import dashboard from '@/layouts/Dashboard.vue'
 import Analitycs from '@/pages/Analytics.vue'
 import { useSessionStore } from '@/stores/session-store'
-
+import Home from '@/pages/Home.vue'
+import Absen from '@/pages/Absen.vue'
 const routes = [
   {
     path: '/',
@@ -16,7 +17,9 @@ const routes = [
     name: "dashboard",
     component: dashboard,
     children: [
-      { path: "", component: Analitycs }
+      { path: "", component: Analitycs },
+      { path: "home", component: Home },
+      { path: "home/:absenId", component: Absen }
     ]
   }
 ]
@@ -27,15 +30,17 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, _from, next) => {
-  const { isloggedIn, fetchSession } = useSessionStore()
+  const { isloggedIn, fetchSession, profile } = useSessionStore()
   // cek sudah login atau belum
   await fetchSession()
-  if (to.path === "/" && isloggedIn) {
-    next("/dashboard")
+  if (to.path === "/" && isloggedIn && profile?.role === "Admin") {
+    return next("/dashboard")
+  } else if (to.path === "/" && isloggedIn && profile?.role === "User") {
+    return next("/dashboard/home")
   } else if (to.meta.requiresAuth && !isloggedIn) {
-    next("/")
+    return next("/")
   }
-  next();
+  return next();
 })
 
 export default router

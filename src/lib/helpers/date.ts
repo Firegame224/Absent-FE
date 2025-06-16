@@ -4,3 +4,9 @@ export function convertDate(date: Date) {
 
   return localeDate
 }
+
+export function convertDateToday(date: Date) {
+  const nonLocaleDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getDay())
+
+  return nonLocaleDate
+}
